@@ -1,0 +1,4 @@
+To run customize_checker.py, just type "python customize_checker.py" on the command line
+in the directory where customize_checker.py is.
+The base of the customize_checker uses the simple_checker structure and constants.
+More test cases were added to cover more cases.
