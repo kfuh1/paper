@@ -216,6 +216,7 @@ def login(conn, uname, pwd):
                 sql = "SELECT password FROM users WHERE username = %s;"
                 data = (uname,)
                 cur.execute(sql, data)
+                # must not None from fetchone bc at this point we know user exists
                 password = cur.fetchone()[0]
                 if password != pwd:
                     return 2, None
@@ -254,7 +255,13 @@ def add_new_paper(conn, uname, title, desc, text, tags):
             VALUES(%s, %s, %s, %s, %s) RETURNING pid;"
         data = (uname, title, str(time), desc, text,)
         cur.execute(sql, data)
-        pid = cur.fetchone()[0]
+        pid_db = cur.fetchone()
+        # something went wrong with insert and no pid was returned
+        # should be caught by a database exception, but this is just in case
+        # there's some other case where this could happen
+        if pid_db is None:
+            return 1, None
+        pid = pid_db[0]
         for t in tags:
             if not t.isalnum():
                 return 1, None
