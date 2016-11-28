@@ -4,6 +4,7 @@ as simple_checker. Checks that I added have comment above or next
 to the line of code with "kfuh". The function extra_test_recommendations
 was added to do some extra testing for get_recommend_papers without
 disturbing the existing tests from simple_checker
+
 Name: Kathleen Fuh
 AndrewID: kfuh
 """
@@ -196,10 +197,11 @@ if __name__ == "__main__":
         status, res = db_wrapper_debug(funcs.login, {'uname':USERS[0], 'pwd':USERS[0]})
         if status != SUCCESS:
             status_error(funcs.login,)
+        # login with incorrect password
         status, res = db_wrapper_debug(funcs.login, {'uname':USERS[0], 'pwd':USERS[1]})
         if status == SUCCESS:
             error_message(funcs.login, "password is not matched but still return login success")
-        # login with nonexistent username
+        # login with nonexistent username - kfuh
         status, res = db_wrapper_debug(funcs.login, {'uname':'a', 'pwd':USERS[0]})
         if status != 1:
             status_error(funcs.login)
@@ -274,7 +276,7 @@ if __name__ == "__main__":
         # timeline for nonexistent user - kfuh
         (funcs.get_timeline, [], {'uname':'blah'}),
         (funcs.get_timeline_all, [5, 4, 3, 2, 1], {}),
-        # count is smaller than number of papers
+        # count is smaller than number of papers - kfuh
         (funcs.get_timeline_all, [5, 4, 3], {'count':3}),
         (funcs.get_papers_by_tag, [5, 4, 3, 1], {'tag':TAGS[0]}),
         # search by tag that doesn't exist - kfuh
@@ -285,7 +287,7 @@ if __name__ == "__main__":
         # check search when keyword not in any text - kfuh
         (funcs.get_papers_by_keyword, [], {'keyword':'blah'}),
         (funcs.get_papers_by_liked, [1], {'uname':USERS[1]}),
-        # get papers liked by nonexistent user
+        # get papers liked by nonexistent user - kfuh
         (funcs.get_papers_by_liked, [], {'uname':'user'}),
         (funcs.get_most_popular_papers, [1, 3, 2, 4], {'begin_time':datetime.now() + timedelta(days=-1)}),
         # begin_time is after all the papers have been uploaded - kfuh
@@ -378,7 +380,8 @@ if __name__ == "__main__":
     # Reset database
     db_wrapper_debug(funcs.reset_db, {})
     
-    extra_test_recommendations() # kfuh - additional testing requiring clean db
+    # kfuh - additional testing requiring clean db
+    extra_test_recommendations()
     
     db_wrapper_debug(funcs.reset_db, {})
     report_result()

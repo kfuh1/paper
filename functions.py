@@ -154,7 +154,6 @@ def signup(conn, uname, pwd):
         (1, None)   Failure -- Username is used
         (2, None)   Failure -- Other errors
     """
-    # (kfuh)
     try:
         cur = conn.cursor()
         # check if username already exists
@@ -194,7 +193,6 @@ def login(conn, uname, pwd):
         (2, None)   Failure -- Password incorrect
         (3, None)   Failure -- Other errors
     """
-    # (kfuh)
     try:
         cur = conn.cursor()
         sql = "SELECT COUNT(*) FROM users WHERE username = %s AND password = %s;"
@@ -247,7 +245,6 @@ def add_new_paper(conn, uname, title, desc, text, tags):
                     Return the pid of the newly inserted paper in the res field of the return value
         (1, None)   Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         time = datetime.now(timezone('US/Eastern'))
@@ -323,7 +320,6 @@ def get_paper_tags(conn, pid):
 
         (1, None)                   Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT tagname FROM tags WHERE pid = %s"
@@ -354,7 +350,6 @@ def like_paper(conn, uname, pid):
         (0, None)   Success
         (1, None)   Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT username FROM papers WHERE pid = %s;"
@@ -396,7 +391,6 @@ def unlike_paper(conn, uname, pid):
         (0, None)   Success
         (1, None)   Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "DELETE FROM likes WHERE pid = %s AND username = %s"
@@ -422,7 +416,6 @@ def get_likes(conn, pid):
         (0, like_count)     Success, retval should be an integer of like count
         (1, None)           Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT COUNT(*) FROM likes WHERE pid = %s"
@@ -492,7 +485,6 @@ def get_timeline_all(conn, count = 10):
         (1, None)
             Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT pid, username, title, begin_time, description FROM papers \
@@ -522,7 +514,6 @@ def get_most_popular_papers(conn, begin_time, count = 10):
         (1, None)
             Failure
     """
-    # kfuh - note we don't want 0 liked papers here
     try:
         cur = conn.cursor()
         sql = "WITH LikeCount AS ( \
@@ -595,7 +586,6 @@ def get_papers_by_tag(conn, tag, count = 10):
         (1, None)
             Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT p.pid, p.username, title, begin_time, description \
@@ -626,7 +616,6 @@ def get_papers_by_keyword(conn, keyword, count = 10):
         (1, None)
             Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT pid, username, title, begin_time, description \
@@ -657,7 +646,6 @@ def get_papers_by_liked(conn, uname, count = 10):
         (1, None)
             Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         # l.username because we want papers liked by the user
@@ -724,8 +712,6 @@ def get_most_popular_tags(conn, count = 1):
         (1, None)
             Failure
     """
-    # TODO: when displayed on site, it's a unicode string (u't1', 1L)
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT tagname, COUNT(*) AS count \
@@ -756,7 +742,6 @@ def get_most_popular_tag_pairs(conn, count = 1):
         (1, None)
             Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT t1.tagname, t2.tagname, COUNT(*) AS count \
@@ -785,7 +770,6 @@ def get_number_papers_user(conn, uname):
         (1, None)
             Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT COUNT(*) FROM papers WHERE username = %s;"
@@ -809,7 +793,6 @@ def get_number_liked_user(conn, uname):
         (1, None)
             Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT COUNT(*) FROM likes WHERE username = %s;"
@@ -835,7 +818,6 @@ def get_number_tags_user(conn, uname):
         (1, None)
             Failure
     """
-    # kfuh
     try:
         cur = conn.cursor()
         sql = "SELECT COUNT(DISTINCT tagname) FROM tags t INNER JOIN papers p \
